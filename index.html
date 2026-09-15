@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Data Structures Simulation</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #151515;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+
+        header {
+            background: #202020;
+            padding: 25px 8%;
+            border-bottom: 2px solid #c9a227;
+        }
+
+        header h1 {
+            color: #d8b44c;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #bbbbbb;
+            font-size: 15px;
+        }
+
+        /* NAVIGATION */
+
+        nav {
+            background: #252525;
+            padding: 15px 8%;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        nav button {
+            background: #333333;
+            border: 1px solid #555;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        nav button:hover {
+            background: #d8b44c;
+            color: #111;
+        }
+
+        /* MAIN */
+
+        main {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .section {
+            background: #202020;
+            border: 1px solid #444;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section h2 {
+            color: #d8b44c;
+            margin-bottom: 10px;
+        }
+
+        .section-description {
+            color: #aaa;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* SIMULATOR */
+
+        .simulator {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 25px;
+        }
+
+        .control-panel {
+            background: #292929;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .control-panel h3 {
+            color: #d8b44c;
+            margin-bottom: 15px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            background: #181818;
+            border: 1px solid #555;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .operation-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .operation-buttons button {
+            padding: 11px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #d8b44c;
+            color: #111;
+            font-weight: bold;
+        }
+
+        .operation-buttons button:hover {
+            background: #f0cf65;
+        }
+
+        .reset {
+            width: 100%;
+            margin-top: 15px;
+            padding: 11px;
+            border: 1px solid #d8b44c;
+            background: transparent;
+            color: #d8b44c;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .reset:hover {
+            background: #d8b44c;
+            color: black;
+        }
+
+        /* VISUALIZATION */
+
+        .visualization {
+            background: #181818;
+            border-radius: 10px;
+            padding: 25px;
+            min-height: 350px;
+        }
+
+        .visualization h3 {
+            color: #d8b44c;
+            margin-bottom: 20px;
+        }
+
+        #status {
+            background: #252525;
+            padding: 12px;
+            border-left: 4px solid #d8b44c;
+            margin-bottom: 25px;
+            color: #ddd;
+        }
+
+        /* STACK */
+
+        .stack-container {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            gap: 5px;
+            min-height: 230px;
+        }
+
+        .stack-item {
+            width: 180px;
+            padding: 14px;
+            background: #d8b44c;
+            color: #111;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 5px;
+            animation: appear 0.3s ease;
+        }
+
+        /* QUEUE */
+
+        .queue-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 230px;
+            overflow-x: auto;
+        }
+
+        .queue-item {
+            min-width: 90px;
+            padding: 20px 10px;
+            background: #d8b44c;
+            color: #111;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        /* LINKED LIST */
+
+        .linked-list-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            min-height: 230px;
+        }
+
+        .node {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .node-box {
+            background: #d8b44c;
+            color: #111;
+            padding: 18px;
+            border-radius: 7px;
+            font-weight: bold;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .arrow {
+            color: #d8b44c;
+            font-size: 25px;
+        }
+
+        /* TABLE */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th {
+            background: #d8b44c;
+            color: #111;
+            padding: 12px;
+        }
+
+        td {
+            padding: 12px;
+            border: 1px solid #444;
+            color: #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #282828;
+        }
+
+        /* HISTORY */
+
+        #history {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            padding: 10px;
+            border-bottom: 1px solid #444;
+            color: #ccc;
+        }
+
+        .history-item strong {
+            color: #d8b44c;
+        }
+
+        /* INFO CARDS */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: #292929;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 3px solid #d8b44c;
+        }
+
+        .card h3 {
+            color: #d8b44c;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #bbb;
+            line-height: 1.6;
+        }
+
+        /* RESULT */
+
+        .result-box {
+            background: #292929;
+            padding: 20px;
+            border-left: 4px solid #d8b44c;
+            line-height: 1.7;
+            color: #ccc;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 30px;
+            background: #202020;
+            color: #888;
+            border-top: 1px solid #444;
+        }
+
+        @keyframes appear {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 800px) {
+
+            .simulator {
+                grid-template-columns: 1fr;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Data Structures Simulation</h1>
+    <p>Implementation of Stack, Queue and Linked List Operations</p>
+</header>
+
+<nav>
+    <button onclick="showSection('stackSection')">Stack</button>
+    <button onclick="showSection('queueSection')">Queue</button>
+    <button onclick="showSection('linkedSection')">Linked List</button>
+    <button onclick="showSection('tableSection')">Simulation Table</button>
+</nav>
+
+<main>
+
+    <!-- INTRODUCTION -->
+
+    <section class="section">
+        <h2>Simulation Activity</h2>
+
+        <p class="section-description">
+            This interactive simulation demonstrates the working of three
+            fundamental linear data structures: Stack, Queue and Linked List.
+            Users can perform different operations and observe the changes
+            dynamically.
+        </p>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Stack</h3>
+                <p>
+                    Stack follows the LIFO principle -
+                    Last In, First Out.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Queue</h3>
+                <p>
+                    Queue follows the FIFO principle -
+                    First In, First Out.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Linked List</h3>
+                <p>
+                    Linked List consists of connected nodes and
+                    supports dynamic insertion and deletion.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- STACK -->
+
+    <section class="section" id="stackSection">
+
+        <h2>Stack Simulation</h2>
+
+        <p class="section-description">
+            Stack operations follow the LIFO (Last In, First Out) principle.
+        </p>
+
+        <div class="simulator">
+
+            <div class="control-panel">
+
+                <h3>Controls</h3>
+
+                <input
+                    type="number"
+                    id="stackInput"
+                    placeholder="Enter value"
+                >
+
+                <div class="operation-buttons">
+
+                    <button onclick="pushStack()">
+                        Push
+                    </button>
+
+                    <button onclick="popStack()">
+                        Pop
+                    </button>
+
+                    <button onclick="peekStack()">
+                        Peek
+                    </button>
+
+                    <button onclick="displayStack()">
+                        Display
+                    </button>
+
+                </div>
+
+                <button class="reset" onclick="resetStack()">
+                    Reset Stack
+                </button>
+
+            </div>
+
+
+            <div class="visualization">
+
+                <h3>Stack Visualization</h3>
+
+                <div id="stackStatus">
+                    <div id="stackMessage">
+                        Stack is ready.
+                    </div>
+                </div>
+
+                <div
+                    id="stackVisual"
+                    class="stack-container"
+                >
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- QUEUE -->
+
+    <section class="section" id="queueSection">
+
+        <h2>Queue Simulation</h2>
+
+        <p class="section-description">
+            Queue operations follow the FIFO (First In, First Out) principle.
+        </p>
+
+        <div class="simulator">
+
+            <div class="control-panel">
+
+                <h3>Controls</h3>
+
+                <input
+                    type="number"
+                    id="queueInput"
+                    placeholder="Enter value"
+                >
+
+                <div class="operation-buttons">
+
+                    <button onclick="enqueue()">
+                        Enqueue
+                    </button>
+
+                    <button onclick="dequeue()">
+                        Dequeue
+                    </button>
+
+                    <button onclick="frontQueue()">
+                        Front
+                    </button>
+
+                    <button onclick="displayQueue()">
+                        Display
+                    </button>
+
+                </div>
+
+                <button
+                    class="reset"
+                    onclick="resetQueue()"
+                >
+                    Reset Queue
+                </button>
+
+            </div>
+
+
+            <div class="visualization">
+
+                <h3>Queue Visualization</h3>
+
+                <div id="queueMessage">
+                    Queue is ready.
+                </div>
+
+                <br>
+
+                <div
+                    id="queueVisual"
+                    class="queue-container"
+                >
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- LINKED LIST -->
+
+    <section class="section" id="linkedSection">
+
+        <h2>Linked List Simulation</h2>
+
+        <p class="section-description">
+            Linked List operations demonstrate insertion, deletion
+            and traversal of connected nodes.
+        </p>
+
+        <div class="simulator">
+
+            <div class="control-panel">
+
+                <h3>Controls</h3>
+
+                <input
+                    type="number"
+                    id="listInput"
+                    placeholder="Enter value"
+                >
+
+                <div class="operation-buttons">
+
+                    <button onclick="insertList()">
+                        Insert
+                    </button>
+
+                    <button onclick="deleteList()">
+                        Delete
+                    </button>
+
+                    <button onclick="traverseList()">
+                        Traverse
+                    </button>
+
+                </div>
+
+                <button
+                    class="reset"
+                    onclick="resetList()"
+                >
+                    Reset Linked List
+                </button>
+
+            </div>
+
+
+            <div class="visualization">
+
+                <h3>Linked List Visualization</h3>
+
+                <div id="listMessage">
+                    Linked List is ready.
+                </div>
+
+                <br>
+
+                <div
+                    id="listVisual"
+                    class="linked-list-container"
+                >
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SIMULATION TABLE -->
+
+    <section
+        class="section"
+        id="tableSection"
+    >
+
+        <h2>Simulation Table</h2>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Sr. No.</th>
+                        <th>Data Structure</th>
+                        <th>Operation</th>
+                        <th>Input / Initial State</th>
+                        <th>Output / Result</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="simulationTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- OPERATION HISTORY -->
+
+    <section class="section">
+
+        <h2>Operation History</h2>
+
+        <div id="history">
+
+            <div class="history-item">
+                No operations performed yet.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESULT -->
+
+    <section class="section">
+
+        <h2>Result</h2>
+
+        <div class="result-box">
+
+            The simulation demonstrates the working of three
+            fundamental linear data structures. Stack operations
+            follow the LIFO principle, Queue operations follow
+            the FIFO principle, and Linked List operations
+            demonstrate dynamic insertion, deletion and traversal.
+
+        </div>
+
+    </section>
+
+
+    <!-- LEARNING OUTCOMES -->
+
+    <section class="section">
+
+        <h2>Conclusions / Learning Outcomes</h2>
+
+        <p class="section-description">
+
+            Students understand the operational behavior of Stack,
+            Queue and Linked List through an interactive computational
+            model.
+
+        </p>
+
+        <p class="section-description">
+            ✓ Practiced insertion, deletion, traversal, push,
+            pop, enqueue and dequeue operations.
+        </p>
+
+        <p class="section-description">
+            ✓ Strengthened problem-solving, coding, debugging
+            and testing skills.
+        </p>
+
+        <p class="section-description">
+            ✓ Learned to compare simulated outputs with expected
+            theoretical results.
+        </p>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    Data Structures Simulation |
+    Stack • Queue • Linked List
+
+</footer>
+
+
+<script>
+
+    /* =====================================
+       GLOBAL VARIABLES
+    ===================================== */
+
+    let stack = [];
+    let queue = [];
+    let linkedList = [];
+
+    let operationNumber = 0;
+
+
+    /* =====================================
+       NAVIGATION
+    ===================================== */
+
+    function showSection(id) {
+
+        document
+            .getElementById(id)
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+    /* =====================================
+       STACK
+    ===================================== */
+
+    function pushStack() {
+
+        let input =
+            document.getElementById("stackInput").value;
+
+        if (input === "") {
+
+            showStackMessage(
+                "Please enter a value."
+            );
+
+            return;
+        }
+
+        stack.push(Number(input));
+
+        showStackMessage(
+            input + " pushed into the stack."
+        );
+
+        addHistory(
+            "Stack",
+            "Push",
+            input,
+            stack.join(", ")
+        );
+
+        document.getElementById("stackInput").value = "";
+
+        displayStack();
+
+    }
+
+
+    function popStack() {
+
+        if (stack.length === 0) {
+
+            showStackMessage(
+                "Stack Underflow! Stack is empty."
+            );
+
+            return;
+        }
+
+        let removed = stack.pop();
+
+        showStackMessage(
+            removed + " removed from the stack."
+        );
+
+        addHistory(
+            "Stack",
+            "Pop",
+            removed,
+            stack.length
+                ? stack.join(", ")
+                : "Empty"
+        );
+
+        displayStack();
+
+    }
+
+
+    function peekStack() {
+
+        if (stack.length === 0) {
+
+            showStackMessage(
+                "Stack is empty."
+            );
+
+            return;
+        }
+
+        let top =
+            stack[stack.length - 1];
+
+        showStackMessage(
+            "TOP = " + top
+        );
+
+    }
+
+
+    function displayStack() {
+
+        let container =
+            document.getElementById(
+                "stackVisual"
+            );
+
+        container.innerHTML = "";
+
+        stack.forEach(function(value) {
+
+            let item =
+                document.createElement("div");
+
+            item.className =
+                "stack-item";
+
+            item.innerText = value;
+
+            container.appendChild(item);
+
+        });
+
+    }
+
+
+    function resetStack() {
+
+        stack = [];
+
+        displayStack();
+
+        showStackMessage(
+            "Stack has been reset."
+        );
+
+    }
+
+
+    function showStackMessage(message) {
+
+        document.getElementById(
+            "stackMessage"
+        ).innerText = message;
+
+    }
+
+
+    /* =====================================
+       QUEUE
+    ===================================== */
+
+    function enqueue() {
+
+        let input =
+            document.getElementById(
+                "queueInput"
+            ).value;
+
+        if (input === "") {
+
+            showQueueMessage(
+                "Please enter a value."
+            );
+
+            return;
+        }
+
+        queue.push(Number(input));
+
+        showQueueMessage(
+            input + " added at REAR."
+        );
+
+        addHistory(
+            "Queue",
+            "Enqueue",
+            input,
+            queue.join(", ")
+        );
+
+        document.getElementById(
+            "queueInput"
+        ).value = "";
+
+        displayQueue();
+
+    }
+
+
+    function dequeue() {
+
+        if (queue.length === 0) {
+
+            showQueueMessage(
+                "Queue Underflow! Queue is empty."
+            );
+
+            return;
+        }
+
+        let removed =
+            queue.shift();
+
+        showQueueMessage(
+            removed + " removed from FRONT."
+        );
+
+        addHistory(
+            "Queue",
+            "Dequeue",
+            removed,
+            queue.length
+                ? queue.join(", ")
+                : "Empty"
+        );
+
+        displayQueue();
+
+    }
+
+
+    function frontQueue() {
+
+        if (queue.length === 0) {
+
+            showQueueMessage(
+                "Queue is empty."
+            );
+
+            return;
+        }
+
+        showQueueMessage(
+            "FRONT = " + queue[0]
+        );
+
+    }
+
+
+    function displayQueue() {
+
+        let container =
+            document.getElementById(
+                "queueVisual"
+            );
+
+        container.innerHTML = "";
+
+        queue.forEach(function(value) {
+
+            let item =
+                document.createElement("div");
+
+            item.className =
+                "queue-item";
+
+            item.innerText = value;
+
+            container.appendChild(item);
+
+        });
+
+    }
+
+
+    function resetQueue() {
+
+        queue = [];
+
+        displayQueue();
+
+        showQueueMessage(
+            "Queue has been reset."
+        );
+
+    }
+
+
+    function showQueueMessage(message) {
+
+        document.getElementById(
+            "queueMessage"
+        ).innerText = message;
+
+    }
+
+
+    /* =====================================
+       LINKED LIST
+    ===================================== */
+
+    function insertList() {
+
+        let input =
+            document.getElementById(
+                "listInput"
+            ).value;
+
+        if (input === "") {
+
+            showListMessage(
+                "Please enter a value."
+            );
+
+            return;
+        }
+
+        linkedList.push(Number(input));
+
+        showListMessage(
+            input + " inserted into Linked List."
+        );
+
+        addHistory(
+            "Linked List",
+            "Insert",
+            input,
+            linkedList.join(" → ")
+        );
+
+        document.getElementById(
+            "listInput"
+        ).value = "";
+
+        displayList();
+
+    }
+
+
+    function deleteList() {
+
+        let input =
+            document.getElementById(
+                "listInput"
+            ).value;
+
+        if (input === "") {
+
+            showListMessage(
+                "Enter the value to delete."
+            );
+
+            return;
+        }
+
+        let value =
+            Number(input);
+
+        let index =
+            linkedList.indexOf(value);
+
+        if (index === -1) {
+
+            showListMessage(
+                value + " not found in Linked List."
+            );
+
+            return;
+        }
+
+        linkedList.splice(index, 1);
+
+        showListMessage(
+            value + " deleted from Linked List."
+        );
+
+        addHistory(
+            "Linked List",
+            "Delete",
+            value,
+            linkedList.length
+                ? linkedList.join(" → ")
+                : "Empty"
+        );
+
+        document.getElementById(
+            "listInput"
+        ).value = "";
+
+        displayList();
+
+    }
+
+
+    function traverseList() {
+
+        if (linkedList.length === 0) {
+
+            showListMessage(
+                "Linked List is empty."
+            );
+
+            return;
+        }
+
+        showListMessage(
+            "Traversal: " +
+            linkedList.join(" → ")
+        );
+
+        addHistory(
+            "Linked List",
+            "Traverse",
+            "-",
+            linkedList.join(" → ")
+        );
+
+    }
+
+
+    function displayList() {
+
+        let container =
+            document.getElementById(
+                "listVisual"
+            );
+
+        container.innerHTML = "";
+
+        linkedList.forEach(function(value, index) {
+
+            let node =
+                document.createElement("div");
+
+            node.className = "node";
+
+            node.innerHTML =
+                `<div class="node-box">${value}</div>`;
+
+            if (index < linkedList.length - 1) {
+
+                node.innerHTML +=
+                    `<div class="arrow">→</div>`;
+
+            } else {
+
+                node.innerHTML +=
+                    `<div class="arrow">→ NULL</div>`;
+
+            }
+
+            container.appendChild(node);
+
+        });
+
+    }
+
+
+    function resetList() {
+
+        linkedList = [];
+
+        displayList();
+
+        showListMessage(
+            "Linked List has been reset."
+        );
+
+    }
+
+
+    function showListMessage(message) {
+
+        document.getElementById(
+            "listMessage"
+        ).innerText = message;
+
+    }
+
+
+    /* =====================================
+       HISTORY + TABLE
+    ===================================== */
+
+    function addHistory(
+        structure,
+        operation,
+        input,
+        output
+    ) {
+
+        operationNumber++;
+
+        let history =
+            document.getElementById(
+                "history"
+            );
+
+        if (
+            history.children.length === 1 &&
+            history.children[0].innerText.includes(
+                "No operations"
+            )
+        ) {
+
+            history.innerHTML = "";
+
+        }
+
+        let item =
+            document.createElement("div");
+
+        item.className =
+            "history-item";
+
+        item.innerHTML =
+            `<strong>#${operationNumber}</strong>
+             &nbsp; ${structure}
+             → ${operation}
+             → Result: ${output}`;
+
+        history.prepend(item);
+
+
+        /* ADD TO TABLE */
+
+        let table =
+            document.getElementById(
+                "simulationTable"
+            );
+
+        let row =
+            document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>${operationNumber}</td>
+
+            <td>${structure}</td>
+
+            <td>${operation}</td>
+
+            <td>${input}</td>
+
+            <td>${output}</td>
+
+        `;
+
+        table.prepend(row);
+
+    }
+
+</script>
+
+</body>
+</html>
